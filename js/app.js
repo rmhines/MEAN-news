@@ -1,17 +1,20 @@
 var app = angular.module('meanNews', []);
 
+// Use a factory to store single instance of all posts
+app.factory("posts", [
+    function() {
+        var service = {
+            posts: []
+        };
+        return service;
+    }
+]);
+
 app.controller('MainCtrl', [
     '$scope',
-    function($scope) {
-        $scope.test = 'Hello world!';
-
-        $scope.posts = [
-            {title: 'post 1', upvotes: 5},
-            {title: 'post 2', upvotes: 2},
-            {title: 'post 3', upvotes: 15},
-            {title: 'post 4', upvotes: 9},
-            {title: 'post 5', upvotes: 4}
-        ];
+    'posts',
+    function($scope, posts) {
+        $scope.posts = posts.posts;
 
         $scope.addPost = function() {
             // Prevent users from adding posts with blank titles
@@ -24,6 +27,7 @@ app.controller('MainCtrl', [
                 upvotes: 0
             });
 
+            // Reset input field to empty strings
             $scope.title = '';
             $scope.link = '';
         }
@@ -32,7 +36,7 @@ app.controller('MainCtrl', [
             post.upvotes += 1;
         }
 
-        $scope.decrementDownvotes = function(post) {
+        $scope.decrementUpvotes = function(post) {
             post.upvotes -= 1;
         }
     }]
