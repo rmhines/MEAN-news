@@ -1,12 +1,19 @@
-var app = angular.module('meanNews', []);
+var app = angular.module('meanNews', ['ui.router']);
 
-// Use a factory to store single instance of all posts
-app.factory("posts", [
-    function() {
-        var service = {
-            posts: []
-        };
-        return service;
+app.config([
+    '$stateProvider',
+    '$urlRouterProvider',
+    function($stateProvider, $urlRouterProvider) {
+        $stateProvider.state('home', {
+            url: '/home',
+            templateUrl: '/home.html',
+            controller: 'MainCtrl'
+        }).state('posts', {
+            url: '/posts/{id}',
+            templateUrl: '/posts.html',
+            controller: 'PostsCtrl'
+        });
+        $urlRouterProvider.otherwise('home');
     }
 ]);
 
@@ -24,7 +31,11 @@ app.controller('MainCtrl', [
             $scope.posts.push({
                 title: $scope.title,
                 link: $scope.link,
-                upvotes: 0
+                upvotes: 0,
+                comments: [
+                    {author: 'Joe', body: 'Cool post!', upvotes: 3},
+                    {author: 'Bob', body: 'Great idea, but...', upvotes: -1},
+                ]
             });
 
             // Reset input field to empty strings
@@ -39,5 +50,36 @@ app.controller('MainCtrl', [
         $scope.decrementUpvotes = function(post) {
             post.upvotes -= 1;
         }
-    }]
-);
+    }
+]);
+
+app.controller('PostsCtrl', [
+    '$scope',
+    '$stateParams',
+    'posts',
+    function($scope, $stateParams, posts) {
+        $scope.post = posts.posts[$stateParams.id];
+
+        $scope.addComment = function () {
+            if ($scope.body === '') {
+                return;
+            }
+            $scope.post.comments.push({
+                body: $scope.body,
+                author: 'user',
+                upvotes: 0
+            });
+            $scope.body = '';
+        };
+    }
+]);
+
+// Factory service to make posts available across views
+app.factory("posts", [
+    function() {
+        var service = {
+            posts: []
+        };
+        return service;
+    }
+]);
