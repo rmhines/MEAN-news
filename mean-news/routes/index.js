@@ -41,3 +41,48 @@ router.post('/posts', function(req, res, next) {
 		res.json(post);
 	});
 });
+
+// Route for preloading post object
+router.param('post', function(req, res, next, id) {
+	// Uses mongoose's query interface for database interaction
+	var query = Post.findById(id);
+
+	query.exec(function (err, post) {
+		if (err) {
+			return next(err);
+		}
+		if (!post) {
+			return next(new Error('Unable to locate post.'));
+		}
+
+		req.post = post;
+		return next();
+	});
+});
+
+// Route for returning a single post
+router.get('/posts/:post', function(req, res) {
+	res.json(req.post);
+});
+
+// Route for upvotes
+router.put('/posts/:post/upvote', function(req, res, next) {
+	req.post.upvote(function(err, post) {
+		if (err) {
+			return next(err);
+		}
+
+		res.json(post);
+	});
+});
+
+// Route for downvotes
+router.put('/posts/:post/downvote', function(req, res, next) {
+	req.post.downvote(function(err, post) {
+		if (err) {
+			return next(err);
+		}
+
+		res.json(post);
+	});
+});
