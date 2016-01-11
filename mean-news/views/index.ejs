@@ -31,7 +31,7 @@
                     </span>
                 </span>
                 <span>
-                    <a href="#/posts/{{$index}}">Comments</a>
+                    <a href="#/posts/{{post._id}}">Comments</a>
                 </span>
             </div>
             <form ng-submit="addPost()" class="add-post-form">
@@ -40,7 +40,7 @@
                     <input type="text" class="form-control" placeholder="Title" ng-model="title"></input>
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Link" ng-model="link"></input>
+                    <input type="text" class="form-control" placeholder="Link (Remember to add http://)" ng-model="link"></input>
                 </div>
                 <button type="submit" class="btn btn-primary">Post</button>
             </form>
@@ -60,11 +60,11 @@
                 <span class="glyphicon glyphicon-arrow-up" ng-click="incrementUpvotes(comment)"></span>
                 <span class="glyphicon glyphicon-arrow-down" ng-click="decrementUpvotes(comment)"></span>
                 {{comment.upvotes}} - by {{comment.author}}
-                <span style="font-size:20px; margin-left:10px;">
+                <span class="commentBody">
                     {{comment.body}}
                 </span>
             </div>
-            <form ng-submit="addComment()" style="margin-top:30px;">
+            <form ng-submit="addComment()" class="submitComment">
                 <h3>Add a new comment</h3>
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="Comment" ng-model="body"></input>
