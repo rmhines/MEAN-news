@@ -4,12 +4,12 @@
 }
 
 body {
-	background-color: #222;
-	color: #eee;
+	background-color: #333333;
+	color: #EEEEEE;
 }
 
-.add-post-form {
-	margin-top: 30px;
+.glyphicon-thumbs-up, .glyphicon-thumbs-down {
+	cursor: pointer
 }
 
 .post-title {
@@ -17,15 +17,32 @@ body {
 	margin-left: 10px;
 }
 
-.glyphicon-arrow-up, .glyphicon-arrow-down { 
-	cursor: pointer;
+.btn-add-post {
+	margin-top: 30px;
 }
 
-.commentBody {
+.title-header {
+	font-family: 'Lobster', cursive;
+	font-size: 6em;
+}
+
+.comment-text {
 	font-size: 20px;
 	margin-left: 10px;
 }
 
-.submitComment {
+.btn-add-comment {
 	margin-top: 30px;
+}
+
+.register-form {
+	margin-top: 30px;
+}
+
+.login-form {
+	margin-top: 30px;
+}
+
+.comments-link {
+	font-size: .5em;
 }
